@@ -6,6 +6,7 @@ import MetricsGrid from "@/components/MetricsGrid";
 import WordAnalysis from "@/components/WordAnalysis";
 import AudioPlayer from "@/components/AudioPlayer";
 import { useSpeakMeter } from "@/hooks/useSpeakMeter";
+import Link from "next/link";
 
 export default function Home() {
   const {
@@ -80,6 +81,23 @@ export default function Home() {
           audioUrl={audioUrl}
           isRecording={isRecording}
         />
+
+        <footer className="mt-16 border-t border-gray-900 pt-8">
+          <p className="text-sm text-gray-600">
+            SpeakMeter does not store your recordings or speaking results.
+          </p>
+
+          <Link
+            href="/privacy"
+            className="mt-2 inline-block text-sm text-gray-500 underline underline-offset-4 transition hover:text-gray-300"
+          >
+            Privacy Policy
+  </Link>
+</footer>
+
+
+
+
       </div>
     </main>
   );

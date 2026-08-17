@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎤 SpeakMeter
 
-## Getting Started
+**Speak. Measure. Improve.**
 
-First, run the development server:
+SpeakMeter is a simple web tool that helps English learners measure their speaking practice.
+
+Instead of only wondering, *"Did I speak enough?"*, SpeakMeter gives you quick statistics about how much and how you spoke.
+
+## Why I Built This
+
+When I practice speaking English, I often want to know things like:
+
+* How long did I actually speak?
+* How many words did I use?
+* How fast was I speaking?
+* Am I repeating the same words too much?
+* How often am I using filler words?
+
+I wanted a small tool that could answer these questions immediately after a speaking session without requiring an account or saving my practice history.
+
+That became **SpeakMeter**.
+
+## Features
+
+SpeakMeter currently analyzes:
+
+* ⏱**Speaking Time** — how long the speaking session lasted
+* **Total Words** — total number of recognized words
+* **WPM** — estimated words spoken per minute
+* **Unique Words** — number of different words used
+* **Repeated Words** — frequently repeated words, excluding common stop words
+* 💬 **Filler Words** — estimated use of words such as `um`, `uh`, `like`, and `actually`
+
+SpeakMeter also provides:
+
+* Microphone recording
+* Live speech-to-text transcription
+* ▶Recording playback
+* Try Again for a new session
+
+## How It Works
+
+```text
+Start Speaking
+      ↓
+Record your voice
+      ↓
+Browser speech recognition
+      ↓
+Generate transcript
+      ↓
+Analyze transcript
+      ↓
+View speaking metrics
+```
+
+SpeakMeter uses the browser's **Web Speech API** for speech recognition.
+
+The generated transcript is then analyzed with custom TypeScript logic to calculate the speaking metrics.
+
+## Tech Stack
+
+* **Next.js**
+* **TypeScript**
+* **Tailwind CSS**
+* **MediaRecorder API**
+* **Web Speech API**
+* Custom text analysis logic
+
+## Privacy
+
+SpeakMeter is designed as a temporary, session-based tool.
+
+It does not require:
+
+* User accounts
+* Login
+* A SpeakMeter database
+* Saved speaking history
+
+SpeakMeter does not store recordings, transcripts, or analysis results in its own database.
+
+Speech recognition is provided through the browser's Web Speech API. Depending on the browser and device, audio may be processed by a speech recognition service provided by the browser or operating system provider.
+
+See the **Privacy Policy** inside SpeakMeter for more information.
+
+## Accuracy
+
+Speaking metrics are based on the transcript produced by browser speech recognition.
+
+Transcription accuracy may vary depending on factors such as:
+
+* Pronunciation
+* Speaking speed
+* Microphone quality
+* Background noise
+* Browser and device
+
+Filler word counts and other transcript-based metrics should therefore be considered estimates.
+
+## Run Locally
+
+Clone the repository:
+
+```bash
+git clone https://github.com/d08835149-prog/speakmeter.git
+```
+
+Enter the project:
+
+```bash
+cd speakmeter
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```text
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+For speech recognition, a supported browser such as Google Chrome is recommended.
 
-## Learn More
+## V1 Scope
 
-To learn more about Next.js, take a look at the following resources:
+The goal of SpeakMeter V1 is intentionally simple:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Record → Transcribe → Analyze → Result**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+SpeakMeter is not intended to be a large English-learning platform.
 
-## Deploy on Vercel
+It is a small tool built to solve a problem I experienced while practicing English speaking.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Possible features such as IELTS-specific practice modes, accounts, and long-term speaking history are intentionally left outside V1.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features I want to add
+
+* AI analysis features
+
+* Login/Sign-up features
+
+* Database connection
+
+etc.
+---
+
+**SpeakMeter — Speak. Measure. Improve.**

@@ -1,93 +1,30 @@
 "use client";
 
-import { useRef, useState } from "react";
+import RecorderControls from "@/components/RecorderControls";
+import TranscriptBox from "@/components/TranscriptBox";
+import MetricsGrid from "@/components/MetricsGrid";
+import WordAnalysis from "@/components/WordAnalysis";
+import AudioPlayer from "@/components/AudioPlayer";
+import { useSpeakMeter } from "@/hooks/useSpeakMeter";
 
 export default function Home() {
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordingTime, setRecordingTime] = useState(0);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-      });
-
-      const mediaRecorder = new MediaRecorder(stream);
-
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-
-      // Remove previous recording
-      if (audioUrl) {
-        URL.revokeObjectURL(audioUrl);
-        setAudioUrl(null);
-      }
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-
-      mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, {
-          type: mediaRecorder.mimeType,
-        });
-
-        const newAudioUrl = URL.createObjectURL(audioBlob);
-
-        setAudioUrl(newAudioUrl);
-      };
-
-      mediaRecorder.start();
-
-      setIsRecording(true);
-      setRecordingTime(0);
-
-      timerRef.current = setInterval(() => {
-        setRecordingTime((prev) => prev + 1);
-      }, 1000);
-    } catch (error) {
-      console.error("Microphone error:", error);
-
-      alert("Microphone access is required to use SpeakMeter.");
-    }
-  };
-
-  const stopRecording = () => {
-    const mediaRecorder = mediaRecorderRef.current;
-
-    if (!mediaRecorder) return;
-
-    mediaRecorder.stop();
-
-    mediaRecorder.stream.getTracks().forEach((track) => {
-      track.stop();
-    });
-
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
-    }
-
-    setIsRecording(false);
-  };
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-
-    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
-  };
+  const {
+    isRecording,
+    recordingTime,
+    audioUrl,
+    transcript,
+    interimTranscript,
+    analysis,
+    startRecording,
+    stopRecording,
+    resetSession,
+    formatTime,
+  } = useSpeakMeter();
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black px-6 text-white">
-      <div className="w-full max-w-xl text-center">
+    <main className="min-h-screen bg-black px-6 py-16 text-white">
+      <div className="mx-auto w-full max-w-4xl text-center">
+        {/* Header */}
         <h1 className="text-6xl font-bold tracking-tight">
           SpeakMeter
         </h1>
@@ -96,42 +33,53 @@ export default function Home() {
           Speak. Measure. Improve.
         </p>
 
-        {isRecording && (
-          <div className="mt-10">
-            <p className="text-sm uppercase tracking-widest text-red-400">
-              ● Recording
-            </p>
+        {/* Recording controls */}
+        <RecorderControls
+          isRecording={isRecording}
+          recordingTime={recordingTime}
+          onStart={startRecording}
+          onStop={stopRecording}
+          formatTime={formatTime}
+        />
 
-            <p className="mt-2 text-4xl font-semibold">
-              {formatTime(recordingTime)}
-            </p>
-          </div>
-        )}
+        {/* Live transcript */}
+        <TranscriptBox
+          transcript={transcript}
+          interimTranscript={interimTranscript}
+        />
 
-        <button
-          onClick={isRecording ? stopRecording : startRecording}
-          className={`mt-10 rounded-full px-8 py-4 text-lg font-semibold transition hover:scale-105 ${
-            isRecording
-              ? "bg-red-500 text-white"
-              : "bg-white text-black"
-          }`}
-        >
-          {isRecording ? "⏹ Stop" : "🎤 Start Speaking"}
-        </button>
-
-        {audioUrl && !isRecording && (
-          <div className="mt-10 rounded-2xl border border-gray-800 bg-gray-950 p-6">
-            <p className="mb-4 text-sm uppercase tracking-widest text-gray-400">
-              Your Recording
-            </p>
-
-            <audio
-              src={audioUrl}
-              controls
-              className="w-full"
+        {/* Results */}
+        {!isRecording && transcript && (
+          <>
+            <MetricsGrid
+              recordingTime={recordingTime}
+              totalWords={analysis.totalWords}
+              wpm={analysis.wpm}
+              uniqueWords={analysis.uniqueWords}
+              repeatedWords={analysis.repeatedWords.length}
+              totalFillers={analysis.totalFillers}
+              formatTime={formatTime}
             />
-          </div>
+
+            <WordAnalysis
+              repeatedWords={analysis.repeatedWords}
+              fillerCounts={analysis.fillerCounts}
+            />
+
+            <button
+              onClick={resetSession}
+              className="mt-8 rounded-full border border-gray-700 px-7 py-3 font-medium text-gray-300 transition hover:bg-gray-900"
+            >
+              Try Again
+            </button>
+          </>
         )}
+
+        {/* Recorded audio */}
+        <AudioPlayer
+          audioUrl={audioUrl}
+          isRecording={isRecording}
+        />
       </div>
     </main>
   );

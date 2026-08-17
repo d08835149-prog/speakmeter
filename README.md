@@ -4,6 +4,8 @@
 
 SpeakMeter is a simple web tool that helps English learners measure their speaking practice.
 
+![SpeakMeter Home](./public/screenshots/home.png)
+
 Instead of only wondering, *"Did I speak enough?"*, SpeakMeter gives you quick statistics about how much and how you spoke.
 
 ## Why I Built This
@@ -23,6 +25,8 @@ That became **SpeakMeter**.
 ## Features
 
 SpeakMeter currently analyzes:
+
+![SpeakMeter Results](./public/screenshots/results.png)
 
 * ⏱**Speaking Time** — how long the speaking session lasted
 * **Total Words** — total number of recognized words

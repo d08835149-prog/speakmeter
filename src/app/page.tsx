@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import RecorderControls from "@/components/RecorderControls";
 import TranscriptBox from "@/components/TranscriptBox";
 import MetricsGrid from "@/components/MetricsGrid";
 import WordAnalysis from "@/components/WordAnalysis";
 import AudioPlayer from "@/components/AudioPlayer";
 import { useSpeakMeter } from "@/hooks/useSpeakMeter";
-import Link from "next/link";
 
 export default function Home() {
   const {
@@ -23,81 +23,111 @@ export default function Home() {
   } = useSpeakMeter();
 
   return (
-    <main className="min-h-screen bg-black px-6 py-16 text-white">
-      <div className="mx-auto w-full max-w-4xl text-center">
-        {/* Header */}
-        <h1 className="text-6xl font-bold tracking-tight">
-          SpeakMeter
-        </h1>
+    <main className="min-h-screen bg-black px-6 py-10 text-white">
+      <div className="mx-auto w-full max-w-5xl">
+        <header className="flex items-center justify-between">
+          <h1 className="text-xl font-bold tracking-tight">
+            SpeakMeter
+          </h1>
 
-        <p className="mt-4 text-lg text-gray-400">
-          Speak. Measure. Improve.
-        </p>
+          <Link
+            href="/privacy"
+            className="text-sm text-gray-500 transition hover:text-white"
+          >
+            Privacy
+          </Link>
+        </header>
 
-        {/* Recording controls */}
-        <RecorderControls
-          isRecording={isRecording}
-          recordingTime={recordingTime}
-          onStart={startRecording}
-          onStop={stopRecording}
-          formatTime={formatTime}
-        />
+        <section className="mx-auto mt-24 max-w-3xl text-center">
+          <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-gray-500">
+            English Speaking Analyzer
+          </p>
 
-        {/* Live transcript */}
-        <TranscriptBox
-          transcript={transcript}
-          interimTranscript={interimTranscript}
-        />
+          <h2 className="text-5xl font-bold tracking-tight sm:text-7xl">
+            Speak.
+            <br />
+            Measure.
+            <br />
+            Improve.
+          </h2>
 
-        {/* Results */}
-        {!isRecording && transcript && (
-          <>
-            <MetricsGrid
-              recordingTime={recordingTime}
-              totalWords={analysis.totalWords}
-              wpm={analysis.wpm}
-              uniqueWords={analysis.uniqueWords}
-              repeatedWords={analysis.repeatedWords.length}
-              totalFillers={analysis.totalFillers}
-              formatTime={formatTime}
-            />
+          <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-gray-400 sm:text-lg">
+            Practice speaking English and instantly see how long,
+            how fast, and how diversely you spoke.
+          </p>
 
-            <WordAnalysis
-              repeatedWords={analysis.repeatedWords}
-              fillerCounts={analysis.fillerCounts}
-            />
+          <RecorderControls
+            isRecording={isRecording}
+            recordingTime={recordingTime}
+            onStart={startRecording}
+            onStop={stopRecording}
+            formatTime={formatTime}
+          />
+        </section>
 
-            <button
-              onClick={resetSession}
-              className="mt-8 rounded-full border border-gray-700 px-7 py-3 font-medium text-gray-300 transition hover:bg-gray-900"
-            >
-              Try Again
-            </button>
-          </>
-        )}
+        <section className="mx-auto mt-12 max-w-4xl">
+          <TranscriptBox
+            transcript={transcript}
+            interimTranscript={interimTranscript}
+          />
 
-        {/* Recorded audio */}
-        <AudioPlayer
-          audioUrl={audioUrl}
-          isRecording={isRecording}
-        />
+          {!isRecording && transcript && (
+            <>
+              <div className="mt-10">
+                <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-gray-500">
+                  Your Results
+                </p>
 
-        <footer className="mt-16 border-t border-gray-900 pt-8">
+                <MetricsGrid
+                  recordingTime={recordingTime}
+                  totalWords={analysis.totalWords}
+                  wpm={analysis.wpm}
+                  uniqueWords={analysis.uniqueWords}
+                  repeatedWords={analysis.repeatedWords.length}
+                  totalFillers={analysis.totalFillers}
+                  formatTime={formatTime}
+                />
+              </div>
+
+              <WordAnalysis
+                repeatedWords={analysis.repeatedWords}
+                fillerCounts={analysis.fillerCounts}
+              />
+
+              <div className="text-center">
+                <button
+                  onClick={resetSession}
+                  className="mt-8 rounded-full border border-gray-700 px-7 py-3 font-medium text-gray-300 transition hover:border-gray-500 hover:bg-gray-900 hover:text-white"
+                >
+                  Try Again
+                </button>
+              </div>
+            </>
+          )}
+
+          <AudioPlayer
+            audioUrl={audioUrl}
+            isRecording={isRecording}
+          />
+        </section>
+
+        <footer className="mx-auto mt-24 max-w-4xl border-t border-gray-900 py-8 text-center">
           <p className="text-sm text-gray-600">
-            SpeakMeter does not store your recordings or speaking results.
+            No account. No saved speaking history.
+          </p>
+
+          <p className="mt-2 text-xs text-gray-700">
+            Speech recognition accuracy may vary by browser,
+            pronunciation, microphone, and background noise.
           </p>
 
           <Link
             href="/privacy"
-            className="mt-2 inline-block text-sm text-gray-500 underline underline-offset-4 transition hover:text-gray-300"
+            className="mt-4 inline-block text-sm text-gray-500 underline underline-offset-4 transition hover:text-gray-300"
           >
             Privacy Policy
-  </Link>
-</footer>
-
-
-
-
+          </Link>
+        </footer>
       </div>
     </main>
   );

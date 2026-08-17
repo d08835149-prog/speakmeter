@@ -152,7 +152,7 @@ Possible features such as IELTS-specific practice modes, accounts, and long-term
 
 * Database connection
 
-etc.
+* etc.
 ---
 
 **SpeakMeter — Speak. Measure. Improve.**

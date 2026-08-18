@@ -24,6 +24,16 @@ I wanted a small tool that could answer these questions immediately after a spea
 
 That became **SpeakMeter**.
 
+## How to Use
+
+1. When you enter the webpage, you will find "Start Speaking."
+
+2. Press "Start Speaking" and begin speaking.
+
+3. Press "Stop Recording" when you want to stop.
+
+4. It will then display the results of your speaking. However, be careful! The results will disappear if you refresh the page. This is because we wanted to keep it as simple as possible :)
+
 ## Features
 
 SpeakMeter currently analyzes:

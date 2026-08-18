@@ -4,137 +4,132 @@
 
 **Live Demo:** https://speakmeter.vercel.app/
 
-SpeakMeter is a simple web tool that helps English learners measure their speaking practice.
+SpeakMeter is a small speaking tool I made for practicing English.
 
 ![SpeakMeter Home](./public/screenshots/home.png)
 
-Instead of only wondering, *"Did I speak enough?"*, SpeakMeter gives you quick statistics about how much and how you spoke.
+## Why I Made This
 
-## Why I Built This
+When I practice speaking English, I sometimes wonder how much I actually spoke.
 
-When I practice speaking English, I often want to know things like:
+I also wanted to know things like:
 
-* How long did I actually speak?
-* How many words did I use?
-* How fast was I speaking?
-* Am I repeating the same words too much?
-* How often am I using filler words?
+- How long did I speak?
+- How many words did I use?
+- Was I speaking too fast or too slowly?
+- Which words did I keep repeating?
+- Did I use too many filler words?
 
-I wanted a small tool that could answer these questions immediately after a speaking session without requiring an account or saving my practice history.
+I wanted something simple that I could open, practice with, check the result, and close.
 
-That became **SpeakMeter**.
+So I made SpeakMeter.
 
 ## How to Use
 
-1. When you enter the webpage, you will find "Start Speaking."
+Using SpeakMeter is pretty simple.
 
-2. Press "Start Speaking" and begin speaking.
+1. Click **Start Speaking**.
+2. Start speaking in English.
+3. Click **Stop Recording** when you're finished.
+4. SpeakMeter will show your transcript and speaking results.
+5. Click **Try Again** if you want to practice again.
 
-3. Press "Stop Recording" when you want to stop.
+Your results are not saved, so they will disappear if you refresh or leave the page. I decided to keep it this way because I wanted SpeakMeter to be a simple practice tool without accounts or saved history.
 
-4. It will then display the results of your speaking. However, be careful! The results will disappear if you refresh the page. This is because we wanted to keep it as simple as possible :)
-
-## Features
-
-SpeakMeter currently analyzes:
+## What It Shows
 
 ![SpeakMeter Results](./public/screenshots/results.png)
 
-* ⏱**Speaking Time** — how long the speaking session lasted
-* **Total Words** — total number of recognized words
-* **WPM** — estimated words spoken per minute
-* **Unique Words** — number of different words used
-* **Repeated Words** — frequently repeated words, excluding common stop words
-* 💬 **Filler Words** — estimated use of words such as `um`, `uh`, `like`, and `actually`
+After you finish speaking, SpeakMeter shows:
 
-SpeakMeter also provides:
+- **Speaking Time** — how long you spoke
+- **Total Words** — how many words were recognized
+- **WPM** — your estimated words per minute
+- **Unique Words** — how many different words you used
+- **Repeated Words** — words you used multiple times
+- **Filler Words** — words such as `um`, `uh`, `like`, and `actually`
 
-* Microphone recording
-* Live speech-to-text transcription
-* ▶Recording playback
-* Try Again for a new session
+You can also read the transcript and listen to your recording again.
 
 ## How It Works
+
+The basic flow is:
 
 ```text
 Start Speaking
       ↓
-Record your voice
+Record
       ↓
-Browser speech recognition
+Speech to Text
       ↓
-Generate transcript
+Analyze the Transcript
       ↓
-Analyze transcript
-      ↓
-View speaking metrics
+Show Results
 ```
 
-SpeakMeter uses the browser's **Web Speech API** for speech recognition.
+For speech recognition, I used the browser's **Web Speech API**.
 
-The generated transcript is then analyzed with custom TypeScript logic to calculate the speaking metrics.
+After the browser creates the transcript, SpeakMeter uses my own TypeScript logic to count the words and calculate things like WPM, unique words, repeated words, and filler words.
+
+I also used the **MediaRecorder API** so you can listen to your recording after you finish.
 
 ## Tech Stack
 
-* **Next.js**
-* **TypeScript**
-* **Tailwind CSS**
-* **MediaRecorder API**
-* **Web Speech API**
-* Custom text analysis logic
+- Next.js
+- TypeScript
+- Tailwind CSS
+- Web Speech API
+- MediaRecorder API
+
+I didn't use a database for this version.
 
 ## Privacy
 
-SpeakMeter is designed as a temporary, session-based tool.
+SpeakMeter doesn't require an account or login.
 
-It does not require:
+It also doesn't save your:
 
-* User accounts
-* Login
-* A SpeakMeter database
-* Saved speaking history
+- recordings
+- transcripts
+- speaking results
 
-SpeakMeter does not store recordings, transcripts, or analysis results in its own database.
+There is no SpeakMeter database storing your speaking sessions.
 
-Speech recognition is provided through the browser's Web Speech API. Depending on the browser and device, audio may be processed by a speech recognition service provided by the browser or operating system provider.
+One thing to know is that speech-to-text uses the browser's Web Speech API. Depending on your browser or device, the browser's speech recognition provider may process the audio.
 
-See the **Privacy Policy** inside SpeakMeter for more information.
+More information is available on the **Privacy Policy** page in SpeakMeter.
 
 ## Accuracy
 
-Speaking metrics are based on the transcript produced by browser speech recognition.
+SpeakMeter depends on browser speech recognition, so the transcript won't always be perfect.
 
-Transcription accuracy may vary depending on factors such as:
+Things like pronunciation, speaking speed, background noise, microphone quality, and the browser you use can affect the result.
 
-* Pronunciation
-* Speaking speed
-* Microphone quality
-* Background noise
-* Browser and device
+Because the analysis is based on that transcript, WPM, repeated words, and filler word results should be treated as estimates.
 
-Filler word counts and other transcript-based metrics should therefore be considered estimates.
+Chrome currently works best for SpeakMeter.
 
-## Run Locally
+## Run It Locally
 
-Clone the repository:
+Clone the project:
 
 ```bash
 git clone https://github.com/d08835149-prog/speakmeter.git
 ```
 
-Enter the project:
+Go into the folder:
 
 ```bash
 cd speakmeter
 ```
 
-Install dependencies:
+Install the packages:
 
 ```bash
 npm install
 ```
 
-Start the development server:
+Run it:
 
 ```bash
 npm run dev
@@ -146,29 +141,27 @@ Then open:
 http://localhost:3000
 ```
 
-For speech recognition, a supported browser such as Google Chrome is recommended.
+## V1
 
-## V1 Scope
-
-The goal of SpeakMeter V1 is intentionally simple:
+For the first version, I wanted to keep the idea simple:
 
 **Record → Transcribe → Analyze → Result**
 
-SpeakMeter is not intended to be a large English-learning platform.
+I thought about adding accounts, saved history, IELTS practice, and other features, but that would make the project much bigger than what I originally needed.
 
-It is a small tool built to solve a problem I experienced while practicing English speaking.
+For now, SpeakMeter does one thing: I speak English, and it gives me some quick information about how I spoke.
 
-Possible features such as IELTS-specific practice modes, accounts, and long-term speaking history are intentionally left outside V1.
+## Things I Might Add Later
 
-## Features I want to add
+There are still some features I would like to try in the future:
 
-* AI analysis features
+- AI feedback on speaking
+- Login and sign-up
+- Saving previous speaking sessions
+- More detailed speaking statistics
+- IELTS speaking practice
+- Better speech-to-text accuracy
 
-* Login/Sign-up features
+But for V1, I wanted to keep it small and actually finish it.
 
-* Database connection
-
-* etc.
 ---
-
-**SpeakMeter — Speak. Measure. Improve.**

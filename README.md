@@ -2,6 +2,8 @@
 
 **Speak. Measure. Improve.**
 
+**Live Demo:** https://speakmeter.vercel.app/
+
 SpeakMeter is a simple web tool that helps English learners measure their speaking practice.
 
 ![SpeakMeter Home](./public/screenshots/home.png)
